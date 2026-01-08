@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ColorTrace - Professional color identifier and analyzer for designers and developers">
+    <title>ColorTrace - Color Identifier & Analyzer</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>ColorTrace</h1>
+                <p class="tagline">Professional Color Identifier & Analyzer</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Tools Section -->
+            <section class="tools-section">
+                <div class="tool-tabs">
+                    <button class="tab-btn active" data-tab="file-upload">
+                        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        File Upload
+                    </button>
+                    <button class="tab-btn" data-tab="url-extract">
+                        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                        </svg>
+                        URL Extractor
+                    </button>
+                    <button class="tab-btn" data-tab="color-picker">
+                        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path>
+                            <line x1="16" y1="8" x2="2" y2="22"></line>
+                            <line x1="17.5" y1="15" x2="9" y2="15"></line>
+                        </svg>
+                        Color Picker
+                    </button>
+                </div>
+
+                <!-- File Upload Tab Content -->
+                <div class="tab-content active" id="file-upload">
+                    <div class="upload-area" id="uploadArea">
+                        <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <h3>Drop your file here</h3>
+                        <p>or click to browse</p>
+                        <p class="file-types">Supports: Images (PNG, JPG, JPEG, SVG), Documents (PDF, DOC, DOCX, PPT, PPTX, XLS, XLSX)</p>
+                        <input type="file" id="fileInput" accept="image/*,.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx" hidden>
+                    </div>
+                    <div class="file-info" id="fileInfo" style="display: none;">
+                        <div class="file-preview" id="filePreview"></div>
+                        <button class="btn btn-secondary" id="clearFile">Clear File</button>
+                    </div>
+                </div>
+
+                <!-- URL Extractor Tab Content -->
+                <div class="tab-content" id="url-extract">
+                    <div class="url-input-container">
+                        <input type="url" id="urlInput" class="url-input" placeholder="Enter website URL (e.g., https://example.com)">
+                        <button class="btn btn-primary" id="extractUrlBtn">Extract Colors</button>
+                    </div>
+                    <div class="url-note">
+                        <p><strong>Note:</strong> Due to browser security (CORS), this feature works best with a backend server. For demo purposes, it will analyze the current page's colors.</p>
+                    </div>
+                </div>
+
+                <!-- Color Picker Tab Content -->
+                <div class="tab-content" id="color-picker">
+                    <div class="picker-container">
+                        <div class="picker-info">
+                            <h3>Screen Color Picker</h3>
+                            <p>Use the eyedropper tool to pick colors from anywhere on the screen</p>
+                        </div>
+                        <button class="btn btn-primary" id="eyedropperBtn">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"></path>
+                                <line x1="16" y1="8" x2="2" y2="22"></line>
+                                <line x1="17.5" y1="15" x2="9" y2="15"></line>
+                            </svg>
+                            Pick Color
+                        </button>
+                        <div class="color-input-container">
+                            <label for="manualColorInput">Or enter a color manually:</label>
+                            <div class="manual-color-input">
+                                <input type="color" id="colorInputPicker" value="#3b82f6">
+                                <input type="text" id="manualColorInput" placeholder="#3b82f6" maxlength="7">
+                                <button class="btn btn-secondary" id="addManualColor">Add Color</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section" id="resultsSection" style="display: none;">
+                <div class="results-header">
+                    <h2>Detected Colors</h2>
+                    <div class="results-actions">
+                        <span class="color-count" id="colorCount">0 colors found</span>
+                        <button class="btn btn-secondary btn-sm" id="exportColors">Export Colors</button>
+                        <button class="btn btn-secondary btn-sm" id="clearResults">Clear All</button>
+                    </div>
+                </div>
+                <div class="color-grid" id="colorGrid">
+                    <!-- Color cards will be inserted here -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 ColorTrace. Built for designers and developers.</p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <span id="toastMessage"></span>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <p>Analyzing colors...</p>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/colorExtractor.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
